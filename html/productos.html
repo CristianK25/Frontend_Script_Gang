@@ -1,0 +1,657 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Script-G</title>
+    <link rel="icon" href="../imgs/favicon.svg?v=1" type="image/svg+xml" sizes="any">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../css/header.css">
+    <link rel="stylesheet" href="../css/productosStyle.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script> <!-- SweetAlert2 global -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="stylesheet" href ="../css/chatbot.css">
+    <script type="module" src="../scriptsFolder/productos.js"></script>
+    
+    <script type="module" src="../scriptsFolder/modalHandler.js"></script>
+    <script type="module" src="../scriptsFolder/funciones.js"></script>
+
+</head>
+
+<div id="cart" class="ts-cart">
+    <a href="#" class="ts-cart__overlay" aria-hidden="true"></a>
+
+    <aside class="ts-cart__panel" role="dialog" aria-modal="true" aria-labelledby="cartTitle">
+        <header class="ts-cart__header">
+            <div>
+                <h4 id="cartTitle">Carrito de Compras</h4>
+                <small class="ts-cart__count">0 productos</small>
+            </div>
+            <a href="#" class="ts-x" aria-label="Cerrar">✕</a>
+        </header>
+
+        <div class="ts-cart__body">
+           <!-- El contenido del carrito se generará dinámicamente aquí -->
+        </div>
+
+        <footer class="ts-cart__footer">
+            <div class="ts-summary">
+                <div class="ts-summary__row">
+                    <span>Subtotal (0 items)</span>
+                    <strong>$0</strong>
+                </div>
+                <div class="ts-summary__row">
+                    <span>Envío</span>
+                    <strong>Gratis</strong>
+                </div>
+                <div class="ts-summary__total">
+                    <span>Total</span>
+                    <strong class="ts-total-price">$0</strong>
+                </div>
+            </div>
+
+            <a href="#" class="ts-pay">
+                <span class="ts-pay__icon"><i class="fa-regular fa-credit-card"></i></span>
+                Pagar Ahora
+            </a>
+        </footer>
+    </aside>
+</div>
+
+<body>
+    <header class="main-header">
+        <a href="index.html" class="header-logo-title">
+            <div class="logo">
+                <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M3 4h18a1 1 0 0 1 1 1v11a1 1 0 0 1-1 1h-7v2h3v2H8v-2h3v-2H3a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1Zm1 2v9h16V6H4Z" />
+                </svg>
+            </div>
+            <h1>Script-G</h1>
+        </a>
+
+        <!-- Botón hamburguesa (visible en mobile) -->
+        <button class="hamburger-btn" id="hamburgerBtn" aria-label="Abrir menú" aria-controls="mobileMenu" aria-expanded="false">
+            <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M3 6h18v2H3V6Zm0 5h18v2H3v-2Zm0 5h18v2H3v-2Z"/>
+            </svg>
+        </button>
+
+        <div class="busqueda" id="searchToggle">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <input type="search" placeholder="Buscar componentes...">
+        </div>
+
+        <div class="menu" id="mobileMenu">
+            <nav>
+                <ul class="main-nav-list">
+                    <li><a href="../html/index.html" class="menu-btn"><i class="fa-solid fa-house"></i> Inicio</a></li>
+                    <li><a href="../html/productos.html" class="menu-btn"><i class="fa-solid fa-box"></i> Productos</a></li>
+                    <li>
+                        <button class="menu-btn" id="btn-login" type="button">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="17" fill="currentColor"
+                                class="bi bi-person-fill" viewBox="0 0 16 16">
+                                <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6" />
+                            </svg>Log in
+                        </button>
+                    </li>
+                    <li>
+                        <a href="#cart" class="menu-btn" id="header-cart-button">
+                            <i class="fa-solid fa-cart-shopping"></i>
+                            Carrito
+                            <span id="cart-count" class="cart-notification"></span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+        <!-- Overlay para cerrar tocando fuera del menú -->
+        <div class="nav-overlay" id="navOverlay"></div>
+    </header>
+    <!-- Panel de búsqueda (mobile) -->
+    <div id="mobileSearchPanel" class="mobile-search-panel" role="search" aria-hidden="true">
+        <div class="mobile-search-inner">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <input type="search" placeholder="Buscar componentes..." aria-label="Buscar" id="mobileSearchInput" />
+        </div>
+    </div>
+    <div class="fix"></div>
+    
+    <div class="pop-up modal-cerrado" id="loginModal">
+        <div class="card2">
+            <form class="form">
+                <button type="button" class="cerrar-modal">×</button>
+                <p id="heading" class="modal-heading">Iniciar Sesión</p>
+                <div class="field">
+                    <svg viewBox="0 0 16 16" fill="currentColor" height="16" width="16" xmlns="http://www.w3.org/2000/svg"
+                        class="input-icon">
+                        <path
+                            d="M13.106 7.222c0-2.967-2.249-5.032-5.482-5.032-3.35 0-5.646 2.318-5.646 5.702 0 3.493 2.235 5.708 5.762 5.708.862 0 1.689-.123 2.304-.335v-.862c-.43.199-1.354.328-2.29.328-2.926 0-4.813-1.88-4.813-4.798 0-2.844 1.921-4.881 4.594-4.881 2.735 0 4.608 1.688 4.608 4.156 0 1.682-.554 2.769-1.416 2.769-.492 0-.772-.28-.772-.76V5.206H8.923v.834h-.11c-.266-.595-.881-.964-1.6-.964-1.4 0-2.378 1.162-2.378 2.823 0 1.737.957 2.906 2.379 2.906.8 0 1.415-.39 1.709-1.087h.11c.081.67.703 1.148 1.503 1.148 1.572 0 2.57-1.415 2.57-3.643zm-7.177.704c0-1.197.54-1.907 1.456-1.907.93 0 1.524.738 1.524 1.907S8.308 9.84 7.371 9.84c-.895 0-1.442-.725-1.442-1.914z">
+                        </path>
+                    </svg>
+                    <input type="email" class="input-field" placeholder="Correo Electrónico" autocomplete="email">
+                </div>
+                <div class="field">
+                    <svg viewBox="0 0 16 16" fill="currentColor" height="16" width="16" xmlns="http://www.w3.org/2000/svg"
+                        class="input-icon">
+                        <path
+                            d="M8 1a2 2 0 0 1 2 2v4H6V3a2 2 0 0 1 2-2zm3 6V3a3 3 0 0 0-6 0v4a2 2 0 0 0-2 2v5a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2z">
+                        </path>
+                    </svg>
+                    <input type="password" class="input-field" placeholder="Contraseña">
+                </div>
+                <div class="btn-is">
+                    <button class="button1">Ingresar</button>
+                    <button class="button2">Registrarse</button>
+                </div>
+                <button class="button3">¿Olvidaste tu contraseña?</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="pop-up modal-cerrado" id="signupModal">
+        <div class="card2">
+            <form class="form signup">
+                <button type="button" class="cerrar-modal">×</button>
+                
+                <p id="heading">Registrarse</p>
+                
+                <div class="name-fields">
+                    <div class="field">
+                        <svg class="input-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                            <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
+                        </svg>
+                        <input type="text" class="input-field" placeholder="Nombre" required/>
+                    </div>
+                    <div class="field">
+                        <svg class="input-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                            <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
+                        </svg>
+                        <input type="text" class="input-field" placeholder="Apellido" required/>
+                    </div>
+                </div>
+
+                <div class="field">
+                    <svg class="input-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                        <path d="M.05 3.555A2 2 0 0 1 2 2h12a2 2 0 0 1 1.95 1.555L8 8.414.05 3.555zM0 4.697v7.104l5.803-3.558L0 4.697zM6.761 8.83l-6.57 4.027A2 2 0 0 0 2 14h12a2 2 0 0 0 1.808-1.144l-6.57-4.027L8 9.586l-1.239-.757zm3.436-.586L16 11.801V4.697l-5.803 3.546z"/>
+                    </svg>
+                    <input type="email" class="input-field" placeholder="Email" required/>
+                </div>
+
+                <div class="field">
+                    <svg class="input-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                        <path d="M8 1a2 2 0 0 1 2 2v4H6V3a2 2 0 0 1 2-2zm3 6V3a3 3 0 0 0-6 0v4a2 2 0 0 0-2 2v5a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2z"/>
+                    </svg>
+                    <input type="password" class="input-field" placeholder="Contraseña" required/>
+                </div>
+
+                <div class="btn-is">
+                    <button type="submit" class="button1">Registrarse</button>
+                </div>
+
+                <div class="modal-switch">
+                    ¿Ya tienes una cuenta? 
+                    <button type="button" class="modal-toggle-btn" id="switchToLogin">Iniciar Sesión</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+
+    <div class="contenedor">
+        <div class="Categorias-container">
+
+            <Div class="Categorias-Lista">
+                <form id="category-filters">
+                    <label>Procesadores <input type="checkbox" name="categoria" value="Procesadores"></label>
+                    <label>Tarjetas Graficas <input type="checkbox" name="categoria" value="Tarjetas Graficas"></label>
+                    <label>Placas Madre <input type="checkbox" name="categoria" value="Placas Madre"></label>
+                    <label>Memorias RAM <input type="checkbox" name="categoria" value="Memorias RAM"></label>
+                    <label>Almacenamiento <input type="checkbox" name="categoria" value="Almacenamiento"></label>
+                    <label>Refrigeracion <input type="checkbox" name="categoria" value="Refrigeracion"></label>
+                </form>
+            </Div>
+        </div>
+        <div class="Catalogo-Container">
+
+            <div class="Catalogo-Header">
+                <div class="Catalogo-texto">
+                    <h2>Catalogo de Productos</h2>
+                </div>
+                <select id="sort-options">
+                    <option value="default">Ordenar por</option>
+                    <option value="price-asc">Precio: Bajo a Alto</option>
+                    <option value="price-desc">Precio: Alto a Bajo</option>
+                    <option value="rating-asc">Calificación: Baja a Alta</option>
+                    <option value="rating-desc">Calificación: Alta a Baja</option>
+                </select>
+
+            </div>
+
+            <!-- Contenedor de detalle embebido (inicialmente oculto) -->
+            <div class="Detalle-Container" id="detalle-producto"></div>
+
+            <div class="Catalogo" id="catalogo-productos">
+                <!-- Los productos se cargarán aquí dinámicamente desde el script -->
+                <!-- Ejemplo de producto hardcodeado (comentado para referencia):
+                <div class="card" data-id="gpu-4080">
+                    <img class="Imagen_Producto" src="..." alt="Producto">
+                    <div class="content">
+                        <span class="stock"></span>
+                        <h3 class="Titulo">Nombre del Producto</h3>
+                        <div class="rating">★5/5</div>
+                        <p class="precio-anterior">$1.000</p>
+                        <p class="Precio">$800</p>
+                        <ul class="Especificaciones"></ul>
+                        <div class="actions">
+                            <button class="btn-cart">Agregar al Carrito</button>
+                            <button class="btn-favorite" type="button">Agregar a Favoritos</button>
+                            <a class="btn-details" href="#modal-id">Ver Detalles</a>
+                        </div>
+                    </div>
+                </div>
+                -->
+            </div>
+        </div>
+    </div>
+
+
+    <footer>
+        <div class="Footer_Container">
+            <a href="index.html" class="Logo_Pagina">
+                <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M3 4h18a1 1 0 0 1 1 1v11a1 1 0 0 1-1 1h-7v2h3v2H8v-2h3v-2H3a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1Zm1 2v9h16V6H4Z" />
+                </svg>
+                <h1>Script-G</h1>
+            </a>
+            <div class="Redes_Sociales">
+                <h2>Redes Sociales</h2>
+                <div class="listas-redes">
+                    <ul>
+                        <li><a href="#instagram"><i class="fa-brands fa-instagram"></i>Instagram</a></li>
+                        <li><a href="#facebook"><i class="fa-brands fa-facebook"></i>Facebook</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="#youtube"><i class="fa-brands fa-facebook"></i>YouTube</a></li>
+                        <li><a href="#tiktok"><i class="fa-brands fa-tiktok"></i>TikTok</a></li>
+                    </ul>
+                </div>
+            </div>
+            <h2><a href="Terminos_condiciones">Terminos y Condiciones</a></h2>
+        </div>
+    </footer>
+    <script type='module' src='../scriptsFolder/auth.js'></script>
+    <script type="module">
+  import { obtenerProductos } from '../scriptsFolder/api/api_productos.js';
+  import { agregarFavorito } from '../scriptsFolder/api/api_favoritos.js';
+  import { agregarAlCarrito, renderizarCarrito, toggleCart, updateCartCount } from '../scriptsFolder/funciones.js';
+  import { toggleLoginModal } from '../scriptsFolder/modalHandler.js';
+  import { renderizarEstrellas, obtenerPromedioEstrellas } from '../scriptsFolder/estrellas.js'; // ← IMPORTAR
+
+  const PLACEHOLDER_IMG = 'data:image/svg+xml,%3Csvg xmlns=%22http%3A//www.w3.org/2000/svg%22 width=%22200%22 height=%22200%22 viewBox=%220 0 200 200%22%3E%3Crect width=%22200%22 height=%22200%22 fill=%22%23f2f4f8%22/%3E%3Ctext x=%2250%25%22 y=%2250%25%22 dominant-baseline=%22middle%22 text-anchor=%22middle%22 font-family=%22Inter%2CArial%2Csans-serif%22 font-size=%2214%22 fill=%22%23666%22%3ESin%20imagen%3C/text%3E%3C/svg%3E';
+  document.addEventListener('DOMContentLoaded', async () => {
+  const contenedor = document.getElementById('catalogo-productos');
+  const detalleContainer = document.getElementById('detalle-producto');
+  let allProducts = [];
+
+  const headerCartButton = document.getElementById('header-cart-button');
+  if (headerCartButton) {
+      headerCartButton.addEventListener('click', (e) => {
+          e.preventDefault();
+          toggleCart();
+      });
+  }
+
+  const headerLoginButton = document.getElementById('btn-login');
+  if (headerLoginButton) {
+      headerLoginButton.addEventListener('click', (e) => {
+          e.preventDefault();
+          toggleLoginModal();
+      });
+  }
+
+  // (Limpieza) Modales hardcodeados removidos del HTML; no se requiere lógica adicional
+
+  try {
+    const productos = await obtenerProductos();
+
+    if (!productos || productos.length === 0) {
+      contenedor.innerHTML = '<p>No hay productos disponibles.</p>';
+      return;
+    }
+
+    contenedor.innerHTML = '';
+    allProducts = productos;
+
+    const cantidadProductos = document.querySelector('.Cantidad-de-productos');
+    if (cantidadProductos) {
+      cantidadProductos.textContent = `${productos.length} productos encontrados`;
+    }
+
+    // 🔥 CARGAR PRODUCTOS CON IMÁGENES
+    for (const p of productos) {
+      
+
+      // 🔥 DEBUG: Ver si el producto tiene imágenes
+      console.log(`Producto ${p.id} - ${p.nombre}:`, {
+        tieneImagenes: p.imagenes && p.imagenes.length > 0,
+        cantidadImagenes: p.imagenes ? p.imagenes.length : 0,
+        primeraURL: p.imagenes?.[0]?.url
+      });
+
+      const card = document.createElement('div');
+      card.classList.add('card');
+      card.dataset.id = `producto-${p.id}`;
+
+      // 🔥 OBTENER URL DE LA IMAGEN
+      let imagenUrl = PLACEHOLDER_IMG;
+
+      if (p.imagenes && Array.isArray(p.imagenes) && p.imagenes.length > 0) {
+        const primeraImagen = p.imagenes[0];
+        if (primeraImagen && primeraImagen.url) {
+          imagenUrl = primeraImagen.url;
+          console.log(`✅ Imagen encontrada para ${p.nombre}: ${imagenUrl}`);
+        }
+      } else {
+        console.warn(`⚠️ ${p.nombre} no tiene imágenes`);
+      }
+
+      card.innerHTML = `
+        <img class="Imagen_Producto"
+             src="${imagenUrl}"
+             alt="${p.nombre}"
+             onerror="console.error('? Error cargando:', this.src); this.src='data:image/svg+xml,%3Csvg xmlns=%22http%3A//www.w3.org/2000/svg%22 width=%22200%22 height=%22200%22 viewBox=%220 0 200 200%22%3E%3Crect width=%22200%22 height=%22200%22 fill=%22%23ffecec%22/%3E%3Ctext x=%2250%25%22 y=%2250%25%22 dominant-baseline=%22middle%22 text-anchor=%22middle%22 font-family=%22Inter%2CArial%2Csans-serif%22 font-size=%2214%22 fill=%22%23cc2433%22%3EError%20imagen%3C/text%3E%3C/svg%3E';
+             onload="console.log('✅ Imagen cargada:', this.src)">
+
+        <div class="content">
+          <span class="stock">${p.stock > 0 ? '🟢 En stock' : '🔴 Agotado'}</span>
+          <h3 class="Titulo">${p.nombre}</h3>
+          
+          <p class="Precio">$${p.precio.toLocaleString('es-AR')}</p>
+
+          <ul class="Especificaciones"></ul>
+          <div class="actions">
+            <button class="btn-cart" data-product-id="${p.id}">Agregar al Carrito</button>
+            <button class="btn-favorite" type="button" data-product-id="${p.id}">Agregar a Favoritos</button>
+            <a class="btn-details" href="../html/detallecompra.html?id=${p.id}" target="_blank" rel="noopener noreferrer">Ver Detalles</a>
+          </div>
+        </div>
+      `;
+
+      const favoriteButton = card.querySelector('.btn-favorite');
+      if (favoriteButton) {
+          favoriteButton.addEventListener('click', async (event) => {
+              const productId = event.target.dataset.productId;
+              try {
+                  await agregarFavorito(productId);
+                  alert('Producto agregado a favoritos con éxito!');
+              } catch (error) {
+                  alert('Error al agregar a favoritos: ' + (error.message || 'Por favor, inicia sesión.'));
+              }
+          });
+      }
+
+      contenedor.appendChild(card);
+    }
+
+    contenedor.addEventListener('click', (event) => {
+      const addToCartButton = event.target.closest('.btn-cart');
+      if (addToCartButton) {
+        const productId = addToCartButton.dataset.productId;
+        const productToAdd = allProducts.find(p => String(p.id) === productId);
+        if (productToAdd) {
+          agregarAlCarrito(event, productToAdd);
+        } else {
+          console.error('Producto no encontrado para el ID:', productId);
+        }
+      }
+
+      const detailsLink = event.target.closest('.btn-details');
+      if (detailsLink) {
+        event.preventDefault();
+        const card = event.target.closest('.card');
+        const dataId = card?.dataset.id || '';
+        const productId = dataId.replace('producto-', '');
+        const producto = allProducts.find(p => String(p.id) === String(productId));
+        if (producto) {
+          mostrarDetalleEmbebido(producto);
+        }
+      }
+    });
+
+  } catch (error) {
+    console.error('Error al obtener productos:', error);
+    contenedor.innerHTML = '<p>Error al cargar los productos.</p>';
+  }
+
+  renderizarCarrito();
+  
+  function mostrarDetalleEmbebido(producto) {
+    if (!detalleContainer) return;
+    const imgUrl = (producto.imagenes && producto.imagenes[0]?.url) ? producto.imagenes[0].url : PLACEHOLDER_IMG;
+    const stockClass = producto.stock > 10 ? 'in-stock' : (producto.stock > 0 ? 'low-stock' : 'out-of-stock');
+    const stockText = producto.stock > 10 ? 'En stock' : (producto.stock > 0 ? 'Stock bajo' : 'Agotado');
+
+    detalleContainer.innerHTML = `
+      <div class="detalle-embed">
+        <button class="btn-back" id="btn-volver-catalogo">← Volver al catálogo</button>
+        <div class="detalle-body">
+          <div class="detalle-media">
+            <img class="detalle-image" src="${imgUrl}" alt="${producto.nombre}">
+          </div>
+          <div class="detalle-info">
+            <h1 class="detalle-title">${producto.nombre}</h1>
+            ${producto.promocion ? `<span class="detalle-promo">${producto.promocion}</span>` : ''}
+            <div class="detalle-price">$${(producto.precio ?? 0).toLocaleString('es-AR')}</div>
+            <div class="detalle-stock ${stockClass}">${stockText}</div>
+            ${producto.descripcion ? `<p class="detalle-description">${producto.descripcion}</p>` : ''}
+            <div class="action-buttons">
+              <button class="btn-cart" id="detalle-add-cart">Agregar al Carrito</button>
+              <button class="btn-favorite" type="button" id="detalle-fav">Agregar a Favoritos</button>
+            </div>
+          </div>
+        </div>
+      </div>`;
+
+    // Mostrar detalle y ocultar catálogo
+    contenedor.style.display = 'none';
+    detalleContainer.style.display = 'block';
+
+    const backBtn = document.getElementById('btn-volver-catalogo');
+    backBtn?.addEventListener('click', () => {
+      detalleContainer.style.display = 'none';
+      contenedor.style.display = '';
+    });
+
+    const addBtn = document.getElementById('detalle-add-cart');
+    addBtn?.addEventListener('click', (e) => {
+      agregarAlCarrito(e, producto);
+    });
+
+    const favBtn = document.getElementById('detalle-fav');
+    favBtn?.addEventListener('click', async () => {
+      try {
+        await agregarFavorito(producto.id);
+        favBtn.textContent = 'En Favoritos';
+        favBtn.classList.add('active');
+      } catch (error) {
+        alert('Error al agregar a favoritos: ' + (error.message || 'Por favor, inicia sesión.'));
+      }
+    });
+  }
+});
+</script>
+<!-- Burbuja del chatbot -->
+<div id="chatbot-bubble">
+  <div class="chat-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+
+<!-- Ventana del chatbot -->
+<div id="chatbot-window">
+  <div class="chatbot-header">
+    <button id="close-chat-btn" aria-label="Cerrar chat">✕</button>
+    <span>Ayudante SCRIPT-G</span>
+    <button id="new-chat-btn">➕ Nuevo Chat</button>
+  </div>
+
+  <div class="chatbot-body">
+    <!-- Sidebar de chats (a la izquierda) -->
+    <div class="chatbot-sidebar" id="chat-sidebar"></div>
+
+    <!-- Área de mensajes -->
+    <div class="chatbot-main">
+      <div class="chatbot-messages" id="chatbot-messages"></div>
+
+      <div class="chatbot-input">
+        <input type="text" id="chatbot-text" placeholder="Escribí un mensaje..." />
+        <button id="chatbot-send">Enviar</button>
+      </div>
+    </div>
+  </div>
+</div>
+<div id="toast-container"></div>
+<script src="../scriptsFolder/chatbot.js"></script>
+<script>
+  // Filtros por múltiples categorías con checkboxes + ordenamiento por precio
+  document.addEventListener('DOMContentLoaded', () => {
+    const catalog = document.getElementById('catalogo-productos');
+    const filtersForm = document.getElementById('category-filters');
+    const sortSelect = document.getElementById('sort-options');
+
+    if (!catalog) return;
+
+    const normalize = (s) => (s || '').toString().toLowerCase();
+    const inferCategoriaFromText = (text) => {
+      const t = (text || '').toLowerCase();
+      if (/ryzen|intel\s*core|\bi3\b|\bi5\b|\bi7\b|\bi9\b|socket|procesador|cpu/.test(t)) return 'Procesadores';
+      if (/rtx|gtx|rx\s?\d|radeon|geforce|tarjeta\s*gr(á|a)fica|gpu/.test(t)) return 'Tarjetas Graficas';
+      if (/mother|placa\s*madre|\bb\d{3}\b|\bx\d{3}\b|\bz\d{3}\b|\bh\d{3}\b|am4|am5|lga/.test(t)) return 'Placas Madre';
+      if (/\bram\b|ddr(3|4|5)|sodimm|memoria\s*ram/.test(t)) return 'Memorias RAM';
+      if (/ssd|hdd|m\.?2|nvme|sata|almacenamiento|disco/.test(t)) return 'Almacenamiento';
+      if (/fuente|psu|80\+|80plus/.test(t)) return 'Fuentes de Poder';
+      if (/gabinete|case|mid\s*tower|full\s*tower/.test(t)) return 'Gabinetes';
+      if (/refrigeraci(ó|o)n|cooler|aio|radiador|ventilador/.test(t)) return 'Refrigeracion';
+      if (/teclado|mouse|rat(ó|o)n|headset|auricular|monitor|perif(é|e)rico/.test(t)) return 'Perifericos';
+      return 'Otros';
+    };
+
+    const parsePrice = (priceText) => {
+      // Convierte "$1.234.567" o "$349.999,00" => 1234567 / 349999
+      const digits = (priceText || '').replace(/[^\d]/g, '');
+      return Number(digits || '0');
+    };
+
+    const getSelectedCategories = () => {
+      if (!filtersForm) return [];
+      return Array.from(filtersForm.querySelectorAll('input[name="categoria"]:checked')).map(i => i.value);
+    };
+
+    const ensureCardCategory = (card) => {
+      if (!card.dataset.categoria) {
+        const title = card.querySelector('.Titulo')?.textContent || '';
+        card.dataset.categoria = inferCategoriaFromText(title);
+      }
+      return card.dataset.categoria;
+    };
+
+    let isApplying = false;
+    let observer;
+    const reconnectObserver = () => {
+      if (observer) observer.disconnect();
+      observer = new MutationObserver(() => {
+        if (!isApplying) applyFiltersAndSort();
+      });
+      observer.observe(catalog, { childList: true });
+    };
+
+    const applyFiltersAndSort = () => {
+      if (isApplying) return;
+      isApplying = true;
+      const selected = getSelectedCategories();
+      const cards = Array.from(catalog.querySelectorAll('.card'));
+
+      // Primero ordenar por precio según selección
+      const sortVal = sortSelect?.value || 'default';
+      if (sortVal === 'price-asc' || sortVal === 'price-desc') {
+        cards.sort((a, b) => {
+          const pa = parsePrice(a.querySelector('.Precio')?.textContent);
+          const pb = parsePrice(b.querySelector('.Precio')?.textContent);
+          return sortVal === 'price-asc' ? pa - pb : pb - pa;
+        });
+        // Evitar bucles: desconectar observer mientras reordenamos
+        if (observer) observer.disconnect();
+        cards.forEach(c => catalog.appendChild(c));
+        reconnectObserver();
+      }
+
+      // Luego aplicar visibilidad por categorías seleccionadas
+      cards.forEach(card => {
+        const cat = ensureCardCategory(card);
+        const show = selected.length === 0 || selected.some(s => normalize(s) === normalize(cat));
+        card.style.display = show ? '' : 'none';
+      });
+      isApplying = false;
+    };
+
+    // Observa cuando se cargan las cards (render dinámico) y aplica últimos filtros/orden
+    reconnectObserver();
+
+    if (filtersForm) filtersForm.addEventListener('change', applyFiltersAndSort);
+    if (sortSelect) sortSelect.addEventListener('change', applyFiltersAndSort);
+
+    // Intento inicial (si ya se cargaron productos)
+    applyFiltersAndSort();
+  });
+</script>
+<!-- Toggle responsive header (igual que index) -->
+<script>
+    (function(){
+        const btn = document.getElementById('hamburgerBtn');
+        const menu = document.getElementById('mobileMenu');
+        const overlay = document.getElementById('navOverlay');
+        const searchToggle = document.getElementById('searchToggle');
+        const searchPanel  = document.getElementById('mobileSearchPanel');
+        if(!btn || !menu || !overlay) return;
+        const closeMenu = ()=>{
+            menu.classList.remove('active');
+            btn.setAttribute('aria-expanded','false');
+            overlay.classList.remove('active');
+        };
+        const openMenu = ()=>{
+            menu.classList.add('active');
+            btn.setAttribute('aria-expanded','true');
+            overlay.classList.add('active');
+        };
+        btn.addEventListener('click', (e)=>{
+            e.stopPropagation();
+            menu.classList.contains('active') ? closeMenu() : openMenu();
+        });
+
+        const closeSearch = ()=>{ searchPanel?.classList.remove('open'); overlay.classList.remove('active'); };
+        const openSearch = ()=>{ searchPanel?.classList.add('open'); overlay.classList.add('active'); };
+
+        searchToggle?.addEventListener('click', (e)=>{
+            if (window.matchMedia('(max-width: 992px)').matches) {
+                e.preventDefault();
+                e.stopPropagation();
+                closeMenu();
+                if (searchPanel?.classList.contains('open')) { closeSearch(); }
+                else { openSearch(); }
+            }
+        });
+
+        overlay.addEventListener('click', ()=>{ closeMenu(); closeSearch(); });
+        document.addEventListener('click', (e)=>{
+            if(!menu.contains(e.target) && e.target !== btn) closeMenu();
+            if(!searchPanel?.contains(e.target) && e.target !== searchToggle) closeSearch();
+        });
+        document.addEventListener('keydown', (e)=>{ if(e.key==='Escape') { closeMenu(); closeSearch(); } });
+    })();
+</script>
+</body>
+
+</html>

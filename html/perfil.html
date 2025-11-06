@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="../css/perfilStyle.css">
+    <title>Script-G</title>
+</head>
+<body>
+    <header>
+        <a href="index.html" class="header-logo-title">
+            <div class="logo">
+                <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M3 4h18a1 1 0 0 1 1 1v11a1 1 0 0 1-1 1h-7v2h3v2H8v-2h3v-2H3a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1Zm1 2v9h16V6H4Z" />
+                </svg>
+            </div>
+            <h1>Script-G</h1>
+        </a>
+
+        <nav>
+            <div class="user-profile">
+                <a href="/profile" class="profile-link" aria-label="Ver mi perfil">
+                    <div class="profile-picture-container">
+                        <i class="bi bi-person-fill"></i>
+                    </div>
+                    <div class="user-info">
+                        <span class="user-name" data-header-username>Nombre del Usuario</span>
+                        <span class="user-email" data-header-email>correo.usuario@ejemplo.com</span>
+                    </div>
+                </a>
+            </div>
+        </nav>
+    </header>
+    <main class="dashboard-layout">
+        <aside class="sidebar">
+            <section class="user-summary">
+                <div class="user-profile-header">
+                    <div class="user-details">
+                        <h2 class="user-name" data-sidebar-username>Cargando...</h2>
+                        <span class="user-membership" data-sidebar-membership></span>
+                    </div>
+                </div>
+
+                <ul class="stats-list">
+                    <li>
+                        <span class="stat-label">Pedidos activos:</span>
+                        <span class="stat-value" id="stat-pedidos-activos">0</span>
+                    </li>
+                    <li>
+                        <span class="stat-label">Total gastado:</span>
+                        <span class="stat-value" id="stat-total-gastado">$0</span>
+                    </li>
+                    <li>
+                        <span class="stat-label">Lista de deseos:</span>
+                        <a href="#" class="stat-link" id="stat-favoritos">0 productos</a>
+                    </li>
+                </ul>
+            </section>
+
+            <section class="quick-access">
+                <h3>Accesos rápidos</h3>
+                <nav class="quick-nav-list">
+                    <!-- Estos elementos fueron eliminados según tu solicitud -->
+                    <a href="/logout" class="quick-nav-item logout-link">
+                        <i class="bi bi-box-arrow-right"></i>
+                        <div class="quick-nav-text">
+                            <span>Cerrar sesión</span>
+                            <span class="quick-nav-subtitle">Salir de tu cuenta</span>
+                        </div>
+                    </a>
+                </nav>
+            </section>
+        </aside>
+        <section class="main-content">
+            <ul class="nav-sec">
+                
+                <li class="nav-item">
+                    <a class="nav-link active-link"  href="#" data-target="info-perfil" >Perfil</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#" data-target="info-historial">Historial</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#" data-target="info-fav">Favoritos</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#" data-target="info-soporte">Soporte</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#" data-target="info-direcciones">Direcciones</a>
+                </li>
+            </ul>
+            <section class="info info-perfil active-content">
+                <h2 class="section-title">Informacion Personal</h2>
+                <div class="miniperfil">
+                    <div class="miniperfil-header"> 
+                        <div class="encabezado">
+                            <h2 class="user-name" data-mini-name>Cargando...</h2>
+                            <span class="user-membership" data-mini-membership></span>
+                        </div>
+                    </div>
+                    <div class="perfil-details">
+                        <ul class="perfil-detalles">
+                            <li>
+                                <span>Nombre completo</span>
+                                <p data-detail-fullname>Nombre Apellido</p>
+                            </li>
+                            <li>
+                                <span>Correo electrónico</span>
+                                <p data-detail-email>cargando@email.com</p>
+                            </li>
+                            <li>
+                                <span>Tel&eacute;fono</span>
+                                <p data-detail-phone>No disponible</p>
+                            </li>
+                            <li>
+                                <span>Fecha de registro</span>
+                                <p data-detail-date>--/--/----</p>
+                            </li>
+                        </ul>
+                    
+                        <ul class="perfil-detalles-extra">
+                            <li>
+                                <i class="bi bi-calendar-check" data-orders-count></i><br>
+                                <span class="aclaracion">Pedidos realizados</span>
+                            </li>
+                            <li>
+                                <i data-total-spent></i><br>
+                                <span class="aclaracion">Total gastado</span>
+                            </li>
+                            <li>
+                                <i class="bi bi-person-badge" data-membership></i><br>
+                                <span class="aclaracion">Nivel de membresía</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+            </section>
+
+            <section class="info info-historial">
+                <!-- El historial de compras se cargará aquí dinámicamente -->
+            </section>
+
+            <section class="info info-pedidos">
+                <!-- Los pedidos activos se cargarán aquí dinámicamente -->
+            </section>
+
+            <section class="info info-fav">
+                <div class="product-list">
+                    <!-- Los favoritos se cargarán aquí dinámicamente -->
+                </div>
+            </section>
+
+            <section class="info info-pagos">
+                <!-- Los métodos de pago se cargarán aquí dinámicamente -->
+            </section>
+
+            <section class="info info-direcciones">
+                <div class="direcciones-layout">
+                    <article class="address-form-card">
+                        <h3>Agregar domicilio</h3>
+                        <p class="form-hint">Completa los datos para guardar un nuevo punto de entrega.</p>
+                        <form id="address-form" autocomplete="off">
+                            <label for="direccion">Direcci&oacute;n</label>
+                            <input type="text" id="direccion" name="direccion" placeholder="Ej: Av. Siempre Viva 742" required>
+
+                            <label for="codigo_area">C&oacute;digo de &aacute;rea</label>
+                            <input type="number" id="codigo_area" name="codigo_area" min="0" placeholder="Ej: 1414" required>
+
+                            <button type="submit" class="btn btn-primary">Guardar domicilio</button>
+                            <p class="form-feedback" data-address-feedback></p>
+                        </form>
+                    </article>
+
+                    <article class="address-list-card">
+                        <div class="address-list-header">
+                            <h3>Domicilios guardados</h3>
+                            <p class="address-list-caption">Administra los lugares disponibles para tus pedidos.</p>
+                        </div>
+                        <div class="address-list" data-address-list></div>
+                    </article>
+                </div>
+            </section>
+
+            <section class="info info-soporte">
+                <div class="support-page-container">
+                    
+                    <div class="ticket-header-card">
+                        
+                        <div class="ticket-title-row">
+                            <h2 class="ticket-title">Demora en el envío del pedido #12345 <span class="ticket-id-badge">TICK-003</span></h2>
+                            <button class="btn btn-view-convo">Ver conversación</button>
+                            <button class="btn btn-icon-email" aria-label="Responder por email">
+                                <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+                            </button>
+                        </div>
+
+                        <div class="ticket-meta-row">
+                            <span class="meta-item">Envíos</span>
+                            <span class="meta-separator">•</span>
+                            <span class="meta-item">Creado: 21/1/2024</span>
+                            <span class="meta-separator">•</span>
+                            <span class="meta-item">Actualizado: 21/1/2024</span>
+                        </div>
+
+                        <div class="ticket-status-row">
+                            <div class="status-tag-group">
+                                <span class="status-badge status-open">
+                                    <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 15.93c-2.8-.75-5-3.32-5-6.43 0-3.87 3.13-7 7-7s7 3.13 7 7c0 3.11-2.2 5.68-5 6.43V17h2v-2h-4v2h2v.93z"/></svg>
+                                    Abierto
+                                </span>
+                            </div>
+                            <span class="message-count">1 mensaje</span>
+                        </div>
+                    </div>
+
+                    <div class="support-channels-card">
+                        <h3 class="section-heading">Otros canales de soporte</h3>
+
+                        <div class="channels-grid">
+                            
+                            <div class="channel-item">
+                                <div class="channel-details">
+                                    <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor"><path d="M20 2H4c-1.1 0-1.99.9-1.99 2L2 22l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 14H6l-2 2V4h16v12zM7 9h2v2H7zm4 0h2v2h-2zm4 0h2v2h-2z"/></svg>
+                                    <div class="channel-text">
+                                        <p class="channel-name">Chat en vivo</p>
+                                        <p class="channel-schedule">Lun-Vie 9:00-18:00</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="channel-item">
+                                <div class="channel-details">
+                                    <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+                                    <div class="channel-text">
+                                        <p class="channel-name">Email</p>
+                                        <p class="channel-email">scriptgangecommerce@gmail.com</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+        </section>
+    </main>
+    
+
+    <script type="module" src="../scriptsFolder/api/apiClient.js"></script>
+    <script type="module" src="../scriptsFolder/api/api_auth.js"></script>
+    <script type="module" src="../scriptsFolder/api/api_usuarios.js"></script>
+    <script type="module" src="../scriptsFolder/perfil.js"></script>
+    <script src="../scriptsFolder/funciones.js"></script>
+</body>
+</html>
