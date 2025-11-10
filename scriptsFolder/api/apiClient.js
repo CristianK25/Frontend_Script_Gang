@@ -112,9 +112,17 @@ async function safeJsonParse(response) {
  * Redirige al login si el usuario no está autenticado.
  */
 function redirectToLogin() {
+  const currentPage = window.location.pathname;
+
+  // Evita redirigir si ya estás en el login
+  if (currentPage.endsWith('/index.html') || currentPage === '/' || currentPage.includes('login')) {
+    console.warn('Ya estás en la página de login, no se redirige nuevamente.');
+    return;
+  }
+
   localStorage.removeItem('jwt_token');
   localStorage.removeItem('user_roles');
-  window.location.href = '/index.html'; // Usar ruta absoluta desde la raíz del sitio
+  window.location.href = '/index.html';
 }
 
 /**

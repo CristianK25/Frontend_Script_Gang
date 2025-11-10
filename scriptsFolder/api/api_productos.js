@@ -67,7 +67,7 @@ export const obtenerProductoIdPorNombre = async (nombre) => {
       `/productos/buscar-id?nombre=${encodeURIComponent(nombre)}`, 
       'GET', 
       null, 
-      true
+      false
     );
     console.log('✅ Producto encontrado:', resultado);
     return resultado;
