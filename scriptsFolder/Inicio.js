@@ -51,14 +51,20 @@ class Carousel {
     }
 
     setSlidePosition() {
-        // Calcular y establecer el ancho y posición de cada slide
-        this.slideWidth = this.slides[0].getBoundingClientRect().width;
-        this.slideWidth = Math.max(this.slideWidth, (this.track && this.track.parentElement) ? this.track.parentElement.getBoundingClientRect().width : this.slideWidth);
-        this.slides.forEach((slide, index) => {
-            slide.style.minWidth = this.slideWidth + 'px';
-            slide.style.left = this.slideWidth * index + 'px';
+        // Calcular el ancho del contenedor y fijarlo en cada slide
+        const containerWidth = (this.track && this.track.parentElement)
+          ? this.track.parentElement.getBoundingClientRect().width
+          : this.slides[0].getBoundingClientRect().width;
+        this.slideWidth = containerWidth;
+
+        // Con flexbox, NO necesitamos posicionar con 'left'. Solo aseguramos el ancho.
+        this.slides.forEach((slide) => {
+            slide.style.minWidth = `${this.slideWidth}px`;
+            slide.style.left = '0px';
         });
-        this.updateCarousel();
+
+        // Actualizar sin animación para evitar jump al recalcular tamaños
+        this.updateCarousel(false);
     }
 
     updateCarousel(animate = true) {
