@@ -696,8 +696,8 @@
     
     <!-- Cargar 4 productos aleatorios en el grid principal con el mismo estilo -->
     <script type="module">
-        import { obtenerProductos } from './scriptsFolder/api/api_productos.js';
-        import { agregarAlCarrito } from './scriptsFolder/funciones.js';
+        import { obtenerProductos } from '/scriptsFolder/api/api_productos.js';
+        import { agregarAlCarrito } from '/scriptsFolder/funciones.js';
         
         const PLACEHOLDER_IMG = 'https://via.placeholder.com/200?text=Sin+Imagen';
         
@@ -796,8 +796,8 @@
     
     <!-- Script para la bÃºsqueda en ambas barras -->
     <script type="module">
-        import { buscarProductos } from './scriptsFolder/api/api_busqueda.js';
-        import { mostrarDetallesProducto } from './scriptsFolder/detallesProducto.js';
+        import { buscarProductos } from '/scriptsFolder/api/api_busqueda.js';
+        import { mostrarDetallesProducto } from '/scriptsFolder/detallesProducto.js';
 
         class BusquedaManager {
             constructor(type) {
@@ -1019,7 +1019,7 @@
 
     <!-- Scripts existentes -->
     <script type="module">
-        import { agregarAlCarrito, renderizarCarrito, toggleCart, updateCartCount } from './scriptsFolder/funciones.js';
+        import { agregarAlCarrito, renderizarCarrito, toggleCart, updateCartCount } from '/scriptsFolder/funciones.js';
         
         const parsePrice = (texto) => {
             if (!texto) return 0;
@@ -1080,7 +1080,7 @@
 
             const loginButton = document.getElementById('btn-login');
             if (loginButton) {
-                import('./scriptsFolder/modalHandler.js')
+                import('/scriptsFolder/modalHandler.js')
                     .then(({ toggleLoginModal }) => {
                         loginButton.addEventListener('click', (event) => {
                             event.preventDefault();
